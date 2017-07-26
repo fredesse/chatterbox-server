@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <!-- dependencies -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script>
+      //YOU DO NOT NEED TO EDIT THIS CODE
+      if (!/(&|\?)username=/.test(window.location.search)) {
+        var newSearch = window.location.search;
+        if (newSearch !== '' & newSearch !== '?') {
+          newSearch += '&';
+        }
+        newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
+        window.location.search = newSearch;
+      }
+    </script>
+    <!-- your scripts -->
+    <script src="env/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <h1>chatterbox</h1>
+      <!-- Your HTML goes here! -->
+      <div id="roomname">
+        <label for="roomSelect" class="roomname">Room</label>
+        <select id="roomSelect" name="chatroom">
+          <!-- <option value="" disabled selected hidden>Choose a chatroom</option> -->
+          <option value="">Create new room</option>
+        </select>
+      </div>
+      <!-- <button type="submit" id="newRoom">Create a new room</button> -->
+      <div>
+        <!-- create a text box for messages -->
+        <!-- <textarea id="writeComment" placeholder="What's on your mind?"></textarea> -->
+        <form action="#" id="send" method="post">
+          <input type="text" name="message" id="message">
+          <input type="submit" name="submit" class="submit">
+        </form>
+        <!-- create a submit button -->
+        <!-- <button type="submit" id="submit">Submit</button> -->
+      </div>
+    </div>
+    <div id="chats"></div>
+    <script>
+      $(function() {
+        app.init();
+      });
+    </script>
+  </body>
+</html>

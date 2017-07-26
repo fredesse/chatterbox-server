@@ -11,84 +11,38 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
+var utils = require('./utils');
 
-//require url
-var url = require('url');
-//create messages array
-var messages = [];
-//create objectId
-var objectId + 1;
-
-var headers = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'access-control-allow-headers': 'content-type, accept',
-  'access-control-max-age': 10,
-  'Content-Type': 'application/json'
-};
-
-var sendResponse = function(response, data, statusCode) {
-  statusCode + statusCode || 200;
-  response.writeHead(statusCode, headers);
-  response.end(JSON.stringify(data));
-};
-
-var collectData = function(request) {
-  var data = '';
-  request.on('data', function(chunk) {
-    data += chunk;
-  });
-  request.on('end', function() {
-    callback(JSON.parse(data));
-  });
-  response.end();
-};
-
+var objectId = 1;
+var messages = [
+  // {
+  //   text: 'Hello, World',
+  //   username: 'Bob',
+  //   objectId: objectId
+  // }
+];
 //create an object with request methods
 var requestMethods = {
   //create a GET method
   GET: function(request, response) {
-    sendResponse(response, {results: messages});
+    utils.sendResponse(response, {results: messages});
   },
   //create a POST method
   POST: function(request, response) {
-    collectData(request, function(message) {
+    utils.collectData(request, function(message) {
       messages.push(message);
       message.objectId = ++objectId;
-      sendResponse(response, {objectId: 1});
-    })
-    // //create body string
-    // var body = '';
-    // //response.writehead with 201 and headers
-    // response.writeHead(201, headers)
-    // //write request on with data
-    // request.on('data', function(data) {
-    //   //add data to body
-    //   body += data;
-    // });
-    // request.on('end', function() {
-    //   //push body to messages
-    //   console.log(JSON.parse(body));
-    //   messages.push(JSON.parse(body));
-    // });
-    // //call response.end
-    // response.end();
-  },
-  //create an ERROR method
-  ERROR: function(request, response, headers) {
-    //response.writehead with 404 and headers
-    response.writeHead(404, headers);
-    //call response.end
-    response.end();
+      utils.sendResponse(response, {objectId: 1}, 201);
+    });
   },
   //create an OPTIONS method
   OPTIONS: function(request, response) {
-    sendResponse(response, null);
+    utils.sendResponse(response, null);
   }
 };
 
-
-var requestHandler = function(request, response) {
+exports.requestHandler = utils.makeActionHandler(requestMethods);
+//module.exports = function(request, response) {
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -103,23 +57,23 @@ var requestHandler = function(request, response) {
   // Adding more logging to your server can be an easy way to get passive
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
-  console.log('Serving request type ' + request.method + ' for url ' + request.url);
-    // The outgoing status.
-  var statusCode = 200;
+  //console.log('Serving request type ' + request.method + ' for url ' + request.url);
+  // The outgoing status.
+  //var statusCode = 200;
 
   // See the note below about CORS headers.
-  var headers = defaultCorsHeaders;
+  //var headers = defaultCorsHeaders;
   ////////////////////////////////////////////////////////////////////////////////////
   //headers['Content-Type'] = 'application/json';
   //WHAT I NEED TO DO
 
-  var action = requestMethods[request.method];
+  // var action = requestMethods[request.method];
 
-  if (action) {
-    action(request, response);
-  } else {
-    sendResponse(response, 'Not Found', 404)
-  }
+  // if (action) {
+  //   action(request, response);
+  // } else {
+  //   utils.sendResponse(response, 'Not Found', 404);
+  //}
 
   // //check if request method === GET
   // if (request.method === 'GET' && request.url === '/') {
@@ -161,7 +115,7 @@ var requestHandler = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
   //response.end('Hello, Worlds!');
-};
+//};
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
 // This code allows this server to talk to websites that
@@ -174,4 +128,4 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 
-module.exports.requestHandler = requestHandler;
+//module.exports = requestHandler;
