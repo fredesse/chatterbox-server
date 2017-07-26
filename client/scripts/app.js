@@ -23,7 +23,7 @@ app.init = function() {
   //Add listeners
   app.$send.on('submit', app.handleSubmit);
   app.$roomSelect.on('change', app.handleRoomChange);
-  app.$chats.on('click', '.username', app.handleUsernameClick)
+  app.$chats.on('click', '.username', app.handleUsernameClick);
 
   // setInterval(function() {
   //   app.fetch();
@@ -101,18 +101,18 @@ app.renderMessages = function(messages) {
 };
 
 app.renderMessage = function (message) {
-    var $chat = $('<div class="chat"/>');
+  var $chat = $('<div class="chat"/>');
 
-    var $username = $('<span class="username"/>');
-    $username.text(message.username + ': ')
+  var $username = $('<span class="username"/>');
+  $username.text(message.username + ': ')
     .attr('data-username', message.username)
     .appendTo($chat);
 
-    var $message = $('<br><span/>');
-    $message.text(message.text).appendTo($chat);
+  var $message = $('<br><span/>');
+  $message.text(message.text).appendTo($chat);
 
-    app.$chats.append($chat);
-}
+  app.$chats.append($chat);
+};
 
 
 
@@ -150,7 +150,7 @@ app.handleRoomChange = function(event) {
   }
 
   app.renderMessages(app.messages);
-}
+};
 
 app.handleSubmit = function(event) {
   console.log('Submit button pushed');

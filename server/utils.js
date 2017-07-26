@@ -7,6 +7,7 @@ var headers = {
 };
 
 exports.sendResponse = function(response, data, statusCode) {
+  console.log(headers);
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
   response.end(JSON.stringify(data));
